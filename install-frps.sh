@@ -171,7 +171,6 @@ fun_getServer(){
     echo ""
     [ -z "${set_server_url}" ]="${def_server_url}"
     case "${set_server_url}" 
-    esac
 }
 fun_getVer(){
     echo -e "Loading network version for ${program_name}, please wait..."
