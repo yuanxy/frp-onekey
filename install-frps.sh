@@ -166,8 +166,9 @@ fun_randstr(){
     strRandomPass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w ${strNum} | head -n1`
     echo ${strRandomPass}
 }
-fun_getServer(){
-    	api_url="https://api.github.com/repos/fatedier/frp/releases/latest"
+fun_download_file(){
+    # download
+api_url="https://api.github.com/repos/fatedier/frp/releases/latest"
 
 	new_ver=`curl ${PROXY} -s ${api_url} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
 
@@ -182,26 +183,6 @@ EOF
 	releases_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_linux_amd64.tar.gz
 	windows_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_windows_amd64.zip
 	rm -rf ./version.txt
-}
-fun_download_file(){
-    # download
-    if [ ! -s ${str_program_dir}/${program_name} ]; then
-        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
-        if ! wget  -q ${program_latest_file_url} -O ${program_latest_filename}; then
-            echo -e " ${COLOR_RED}failed${COLOR_END}"
-            exit 1
-        fi
-        tar xzf ${program_latest_filename}
-        mv frp_${FRPS_VER}_linux_${ARCHS}/frps ${str_program_dir}/${program_name}
-        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
-    fi
-    chown root:root -R ${str_program_dir}
-    if [ -s ${str_program_dir}/${program_name} ]; then
-        [ ! -x ${str_program_dir}/${program_name} ] && chmod 755 ${str_program_dir}/${program_name}
-    else
-        echo -e " ${COLOR_RED}failed${COLOR_END}"
-        exit 1
-    fi
 }
 function __readINI() {
  INIFILE=$1; SECTION=$2; ITEM=$3
@@ -334,7 +315,6 @@ pre_install_clang(){
     else
         clear
         fun_clangcn
-        fun_getServer
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
