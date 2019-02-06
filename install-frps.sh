@@ -3,7 +3,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
 export FRPS_VER=0.23.3
-export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
+export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"·
 export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
@@ -96,6 +96,14 @@ checkos(){
         exit 1
     fi
 }
+# Get version
+getversion(){
+    if [[ -s /etc/redhat-release ]];then
+        grep -oE  "[0-9.]+" /etc/redhat-release
+    else
+        grep -oE  "[0-9.]+" /etc/issue
+    fi
+}
 # CentOS version
 centosversion(){
     local code=$1
@@ -158,23 +166,42 @@ fun_randstr(){
     strRandomPass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w ${strNum} | head -n1`
     echo ${strRandomPass}
 }
+fun_getServer(){
+    def_server_url="github"
+    echo ""
+    [ -z "${set_server_url}" ]="${def_server_url}"
+    case "${set_server_url}" 
+    esac
+}
+fun_getVer(){
+    echo -e "Loading network version for ${program_name}, please wait..."
+    program_latest_filename="frp_${FRPS_VER}_linux_${ARCHS}.tar.gz"
+    program_latest_file_url="${program_download_url}/v${FRPS_VER}/${program_latest_filename}"
+    if [ -z "${program_latest_filename}" ]; then
+        echo -e "${COLOR_RED}Load network version failed!!!${COLOR_END}"
+    else
+        echo -e "${program_name} Latest release file ${COLOR_GREEN}${program_latest_filename}${COLOR_END}"
+    fi
+}
 fun_download_file(){
     # download
-api_url="https://api.github.com/repos/fatedier/frp/releases/latest"
-
-	new_ver=`curl ${PROXY} -s ${api_url} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
-
-	touch ./version.txt
-	cat <<EOF > ./version.txt
-${new_ver}
-EOF
-
-	sed -i 's/v//g' ./version.txt
-	get_releases=$(cat ./version.txt)
-
-	releases_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_linux_amd64.tar.gz
-	windows_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_windows_amd64.zip
-	rm -rf ./version.txt
+    if [ ! -s ${str_program_dir}/${program_name} ]; then
+        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
+        if ! wget  -q ${program_latest_file_url} -O ${program_latest_filename}; then
+            echo -e " ${COLOR_RED}failed${COLOR_END}"
+            exit 1
+        fi
+        tar xzf ${program_latest_filename}
+        mv frp_${FRPS_VER}_linux_${ARCHS}/frps ${str_program_dir}/${program_name}
+        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
+    fi
+    chown root:root -R ${str_program_dir}
+    if [ -s ${str_program_dir}/${program_name} ]; then
+        [ ! -x ${str_program_dir}/${program_name} ] && chmod 755 ${str_program_dir}/${program_name}
+    else
+        echo -e " ${COLOR_RED}failed${COLOR_END}"
+        exit 1
+    fi
 }
 function __readINI() {
  INIFILE=$1; SECTION=$2; ITEM=$3
@@ -307,6 +334,8 @@ pre_install_clang(){
     else
         clear
         fun_clangcn
+        fun_getServer
+        fun_getVer
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
