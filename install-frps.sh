@@ -96,14 +96,6 @@ checkos(){
         exit 1
     fi
 }
-# Get version
-getversion(){
-    if [[ -s /etc/redhat-release ]];then
-        grep -oE  "[0-9.]+" /etc/redhat-release
-    else
-        grep -oE  "[0-9.]+" /etc/issue
-    fi
-}
 # CentOS version
 centosversion(){
     local code=$1
