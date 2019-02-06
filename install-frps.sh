@@ -2,10 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.23.3
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
-export aliyun_download_url="https://code.aliyun.com/MvsCode/frp/raw/master"
-export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
 #   Description:  A tool to auto-compile & install frps on Linux
@@ -177,16 +174,6 @@ fun_randstr(){
     strRandomPass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w ${strNum} | head -n1`
     echo ${strRandomPass}
 }
-fun_getVer(){
-    echo -e "Loading network version for ${program_name}, please wait..."
-    program_latest_filename="frp_${FRPS_VER}_linux_${ARCHS}.tar.gz"
-    program_latest_file_url="${program_download_url}/v${FRPS_VER}/${program_latest_filename}"
-    if [ -z "${program_latest_filename}" ]; then
-        echo -e "${COLOR_RED}Load network version failed!!!${COLOR_END}"
-    else
-        echo -e "${program_name} Latest release file ${COLOR_GREEN}${program_latest_filename}${COLOR_END}"
-    fi
-}
 fun_download_file(){
     # download
     if [ ! -s ${str_program_dir}/${program_name} ]; then
@@ -338,8 +325,7 @@ pre_install_clang(){
     else
         clear
         fun_clangcn
-        fun_getversion
-        fun_getVer
+        fun_getversion       
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
