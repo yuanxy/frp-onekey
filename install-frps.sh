@@ -13,7 +13,7 @@ export github_download_url="https://github.com/fatedier/frp/releases/download"
 #   Mender：MvsCode
 #======================================================================
 program_name="frps"
-version="1.8.7"
+version="1.9.2"
 str_program_dir="/usr/local/${program_name}"
 program_init="/etc/init.d/${program_name}"
 program_config_file="frps.ini"
@@ -99,11 +99,21 @@ checkos(){
 }
 # Get version
 getversion(){
-    if [[ -s /etc/redhat-release ]];then
-        grep -oE  "[0-9.]+" /etc/redhat-release
-    else
-        grep -oE  "[0-9.]+" /etc/issue
-    fi
+api_url="https://api.github.com/repos/fatedier/frp/releases/latest"
+
+	new_ver=`curl ${PROXY} -s ${api_url} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
+
+	touch ./version.txt
+	cat <<EOF > ./version.txt
+${new_ver}
+EOF
+
+	sed -i 's/v//g' ./version.txt
+	get_releases=$(cat ./version.txt)
+
+	releases_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_linux_amd64.tar.gz
+	windows_url=https://github.com/fatedier/frp/releases/download/${new_ver}/frp_${get_releases}_windows_amd64.zip
+	rm -rf ./version.txt
 }
 # CentOS version
 centosversion(){
@@ -166,32 +176,6 @@ fun_randstr(){
     strRandomPass=""
     strRandomPass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w ${strNum} | head -n1`
     echo ${strRandomPass}
-}
-fun_getServer(){
-    def_server_url="github"
-    echo ""
-    echo -e "Please select ${program_name} download url:"
-    echo -e "[1].aliyun "
-    echo -e "[2].github (default)"
-    read -e -p "Enter your choice (1, 2 or exit. default [${def_server_url}]): " set_server_url
-    [ -z "${set_server_url}" ] && set_server_url="${def_server_url}"
-    case "${set_server_url}" in
-        1|[Aa][Ll][Ii][Yy][Uu][Nn])
-            program_download_url=${aliyun_download_url}
-            ;;
-        2|[Gg][Ii][Tt][Hh][Uu][Bb])
-            program_download_url=${github_download_url}
-            ;;
-        [eE][xX][iI][tT])
-            exit 1
-            ;;
-        *)
-            program_download_url=${aliyun_download_url}
-            ;;
-    esac
-    echo    "-----------------------------------"
-    echo -e "       Your select: ${COLOR_YELOW}${set_server_url}${COLOR_END}    "
-    echo    "-----------------------------------"
 }
 fun_getVer(){
     echo -e "Loading network version for ${program_name}, please wait..."
@@ -354,7 +338,7 @@ pre_install_clang(){
     else
         clear
         fun_clangcn
-        fun_getServer
+        fun_getversion
         fun_getVer
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
