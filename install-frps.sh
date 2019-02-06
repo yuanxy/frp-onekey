@@ -98,7 +98,7 @@ checkos(){
     fi
 }
 # Get version
-getversion(){
+fun_getversion(){
 api_url="https://api.github.com/repos/fatedier/frp/releases/latest"
 
 	new_ver=`curl ${PROXY} -s ${api_url} --connect-timeout 10| grep 'tag_name' | cut -d\" -f4`
