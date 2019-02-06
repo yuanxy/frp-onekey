@@ -3,7 +3,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
 export FRPS_VER=0.23.3
-export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"·
+export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
+export aliyun_download_url="https://code.aliyun.com/MvsCode/frp/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
@@ -169,8 +170,28 @@ fun_randstr(){
 fun_getServer(){
     def_server_url="github"
     echo ""
-    [ -z "${set_server_url}" ]="${def_server_url}"
-    case "${set_server_url}" 
+    echo -e "Please select ${program_name} download url:"
+    echo -e "[1].aliyun "
+    echo -e "[2].github (default)"
+    read -e -p "Enter your choice (1, 2 or exit. default [${def_server_url}]): " set_server_url
+    [ -z "${set_server_url}" ] && set_server_url="${def_server_url}"
+    case "${set_server_url}" in
+        1|[Aa][Ll][Ii][Yy][Uu][Nn])
+            program_download_url=${aliyun_download_url}
+            ;;
+        2|[Gg][Ii][Tt][Hh][Uu][Bb])
+            program_download_url=${github_download_url}
+            ;;
+        [eE][xX][iI][tT])
+            exit 1
+            ;;
+        *)
+            program_download_url=${aliyun_download_url}
+            ;;
+    esac
+    echo    "-----------------------------------"
+    echo -e "       Your select: ${COLOR_YELOW}${set_server_url}${COLOR_END}    "
+    echo    "-----------------------------------"
 }
 fun_getVer(){
     echo -e "Loading network version for ${program_name}, please wait..."
