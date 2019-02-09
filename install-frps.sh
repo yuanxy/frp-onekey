@@ -2,9 +2,9 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.23.3
+export FRPS_VER=0.16.0&&0.18.0
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
-export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
+export aliyun_download_url="https://code.aliyun.com/MvsCode/frp/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
@@ -20,7 +20,7 @@ program_config_file="frps.ini"
 ver_file="/tmp/.frp_ver.sh"
 str_install_shell="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/install-frps.sh"
 shell_update(){
-    fun_MvsCode "clear"
+    fun_clangcn "clear"
     echo "Check updates for shell..."
     remote_shell_version=`wget  -qO- ${str_install_shell} | sed -n '/'^version'/p' | cut -d\" -f2`
     if [ ! -z ${remote_shell_version} ]; then
@@ -44,7 +44,7 @@ shell_update(){
         fi
     fi
 }
-fun_MvsCode(){
+fun_clangcn(){
     local clear_flag=""
     clear_flag=$1
     if [[ ${clear_flag} == "clear" ]]; then
@@ -70,7 +70,7 @@ fun_set_text_color(){
 # Check if user is root
 rootness(){
     if [[ $EUID -ne 0 ]]; then
-        fun_MvsCode
+        fun_clangcn
         echo "Error:This script must be run as root!" 1>&2
         exit 1
     fi
@@ -346,18 +346,18 @@ fun_input_subdomain_host(){
 }
 
 pre_install_clang(){
-    fun_MvsCode
+    fun_clangcn
     echo -e "Check your server setting, please wait..."
     disable_selinux
     if [ -s ${str_program_dir}/${program_name} ] && [ -s ${program_init} ]; then
         echo "${program_name} is installed!"
     else
         clear
-        fun_MvsCode
+        fun_clangcn
         fun_getServer
         fun_getVer
         echo -e "Loading You Server IP, please wait..."
-        defIP=$(wget -qO- ip.MvsCode | sed -r 's/\r//')
+        defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
         echo -e "————————————————————————————————————————————"
         echo -e "     ${COLOR_RED}Please input your server setting:${COLOR_END}"
@@ -629,7 +629,7 @@ fi
     echo " done"
     [ -s ${program_init} ] && ln -s ${program_init} /usr/bin/${program_name}
     ${program_init} start
-    fun_MvsCode
+    fun_clangcn
     #install successfully
     echo ""
     echo "Congratulations, ${program_name} install completed!"
@@ -671,7 +671,7 @@ configure_program_server_clang(){
 }
 ############################### uninstall ##################################
 uninstall_program_server_clang(){
-    fun_MvsCode
+    fun_clangcn
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Uninstall ${program_name} =============="
         str_uninstall="n"
@@ -807,7 +807,7 @@ update_config_clang(){
     fi
 }
 update_program_server_clang(){
-    fun_MvsCode "clear"
+    fun_clangcn "clear"
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Update ${program_name} =============="
         update_config_clang
@@ -888,7 +888,7 @@ update)
     update_program_server_clang 2>&1 | tee /root/${program_name}-update.log
     ;;
 *)
-    fun_MvsCode
+    fun_clangcn
     echo "Arguments error! [${action} ]"
     echo "Usage: `basename $0` {install|uninstall|update|config}"
     RET_VAL=1
