@@ -2,7 +2,6 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.16.0 && 0.18.0
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.16.0"
 export github_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.18.0"
@@ -195,8 +194,8 @@ fun_getServer(){
 }
 fun_getVer(){
     echo -e "Loading network version for ${program_name}, please wait..."
-    program_latest_filename="frp_${FRPS_VER}_linux_${ARCHS}.tar.gz"
-    program_latest_file_url="${program_download_url}/v${FRPS_VER}/${program_latest_filename}"
+    program_latest_filename="frp_linux_${ARCHS}.tar.gz"
+    program_latest_file_url="${program_download_url}/${program_latest_filename}"
     if [ -z "${program_latest_filename}" ]; then
         echo -e "${COLOR_RED}Load network version failed!!!${COLOR_END}"
     else
@@ -206,14 +205,14 @@ fun_getVer(){
 fun_download_file(){
     # download
     if [ ! -s ${str_program_dir}/${program_name} ]; then
-        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
+        rm -fr ${program_latest_filename} frp_linux_${ARCHS}
         if ! wget  -q ${program_latest_file_url} -O ${program_latest_filename}; then
             echo -e " ${COLOR_RED}failed${COLOR_END}"
             exit 1
         fi
         tar xzf ${program_latest_filename}
-        mv frp_${FRPS_VER}_linux_${ARCHS}/frps ${str_program_dir}/${program_name}
-        rm -fr ${program_latest_filename} frp_${FRPS_VER}_linux_${ARCHS}
+        mv frp_linux_${ARCHS}/frps ${str_program_dir}/${program_name}
+        rm -fr ${program_latest_filename} frp_linux_${ARCHS}
     fi
     chown root:root -R ${str_program_dir}
     if [ -s ${str_program_dir}/${program_name} ]; then
