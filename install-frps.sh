@@ -353,7 +353,6 @@ pre_install_clang(){
         echo "${program_name} is installed!"
     else
         clear
-    version=(){
         echo "1. 0.16.1"
         echo "2. 0.18.0"
         read -p "Please choose frps version: " i
@@ -367,7 +366,6 @@ pre_install_clang(){
         *)
         echo "Please choose a right item."
         esac
-        }
         fun_clangcn
         fun_getServer
         fun_getVer
