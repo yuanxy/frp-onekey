@@ -4,6 +4,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 export FRPS_VER=0.16.0
 export FRPS_VER=0.18.0
+export FRPS_VER=0.23.3
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
@@ -169,7 +170,7 @@ fun_randstr(){
     echo ${strRandomPass}
 }
 fun_getv(){
-    def_server_url="v0.23.0"
+    def_server_url="v0.23.3"
     echo ""
     echo -e "Please select ${program_name} file download url:"
     echo -e "[1].v0.16.0 "
@@ -382,6 +383,7 @@ pre_install_clang(){
     else
         clear
         fun_clangcn
+        fun_getv
         fun_getServer
         fun_getVer
         echo -e "Loading You Server IP, please wait..."
