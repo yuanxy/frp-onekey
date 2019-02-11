@@ -2,7 +2,6 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=$version
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
@@ -353,6 +352,10 @@ pre_install_clang(){
         echo "${program_name} is installed!"
     else
         clear
+        fun_clangcn
+        fun_getServer
+        fun_getVer
+        FRPS_VER=(){
         echo "1. 0.16.1"
         echo "2. 0.18.0"
         read -p "Please choose frps version: " i
@@ -365,10 +368,7 @@ pre_install_clang(){
         ;;
         *)
         echo "Please choose a right item."
-        esac
-        fun_clangcn
-        fun_getServer
-        fun_getVer
+        esac}
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
