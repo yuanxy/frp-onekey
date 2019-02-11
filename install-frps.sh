@@ -2,13 +2,14 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
+export FRPS_VER=0.23.3
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
 #   Description:  A tool to auto-compile & install frps on Linux
-#   Author: MvsCode
+#   Author: Clang
 #   Mender：MvsCode
 #======================================================================
 program_name="frps"
@@ -19,7 +20,7 @@ program_config_file="frps.ini"
 ver_file="/tmp/.frp_ver.sh"
 str_install_shell="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/install-frps.sh"
 shell_update(){
-    fun_MvsCode "clear"
+    fun_clangcn "clear"
     echo "Check updates for shell..."
     remote_shell_version=`wget  -qO- ${str_install_shell} | sed -n '/'^version'/p' | cut -d\" -f2`
     if [ ! -z ${remote_shell_version} ]; then
@@ -35,7 +36,7 @@ shell_update(){
                 chmod +x install-frps.sh
                 echo -e " [${COLOR_GREEN}OK${COLOR_END}]"
                 echo
-                echo -e "${COLOR_GREEN}Please Re-run${COLOR_END} ${COLOR_PINK}$0 ${MvsCode_action}${COLOR_END}"
+                echo -e "${COLOR_GREEN}Please Re-run${COLOR_END} ${COLOR_PINK}$0 ${clang_action}${COLOR_END}"
                 echo
                 exit 1
             fi
@@ -43,7 +44,7 @@ shell_update(){
         fi
     fi
 }
-fun_MvsCode(){
+fun_clangcn(){
     local clear_flag=""
     clear_flag=$1
     if [[ ${clear_flag} == "clear" ]]; then
@@ -51,7 +52,7 @@ fun_MvsCode(){
     fi
     echo ""
     echo "+------------------------------------------------------------+"
-    echo "|   frps for Linux Server, Author MvsCode ，Mender MvsCode     |" 
+    echo "|   frps for Linux Server, Author Clang ，Mender MvsCode     |" 
     echo "|      A tool to auto-compile & install frps on Linux        |"
     echo "+------------------------------------------------------------+"
     echo ""
@@ -69,7 +70,7 @@ fun_set_text_color(){
 # Check if user is root
 rootness(){
     if [[ $EUID -ne 0 ]]; then
-        fun_MvsCode
+        fun_clangcn
         echo "Error:This script must be run as root!" 1>&2
         exit 1
     fi
@@ -85,7 +86,7 @@ get_char(){
 }
 # Check OS
 checkos(){
-    if   grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+    if  grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
         OS=CentOS
     elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
         OS=Debian
@@ -96,7 +97,14 @@ checkos(){
         exit 1
     fi
 }
-
+# Get version
+getversion(){
+    if [[ -s /etc/redhat-release ]];then
+        grep -oE  "[0-9.]+" /etc/redhat-release
+    else
+        grep -oE  "[0-9.]+" /etc/issue
+    fi
+}
 # CentOS version
 centosversion(){
     local code=$1
@@ -337,41 +345,19 @@ fun_input_subdomain_host(){
     [ -z "${input_subdomain_host}" ] && input_subdomain_host="${def_subdomain_host}"
 }
 
-pre_install_MvsCode(){
-    fun_MvsCode
+pre_install_clang(){
+    fun_clangcn
     echo -e "Check your server setting, please wait..."
     disable_selinux
     if [ -s ${str_program_dir}/${program_name} ] && [ -s ${program_init} ]; then
         echo "${program_name} is installed!"
     else
         clear
-        # Get version
-        echo -e "Please select ${COLOR_GREEN}FRPS_VER${COLOR_END}"
-        echo    "1: 0.16.1 (default)"
-        echo    "2: 0.18.0"   
-        echo    "-------------------------"
-        read -e -p "Enter your choice (1, 2, or exit. default [1]): " str_FRPS_VER
-        case "${str_FRPS_VER}" in
-            1|[Ii][Nn][Ff][Oo])
-                str_FRPS_VER="0.16.1"
-                ;;
-            2|[Ww][Aa][Rr][Nn])
-                str_FRPS_VER="0.18.0"
-                ;;
-            [eE][xX][iI][tT])
-                exit 1
-                ;;
-            *)
-                str_FRPS_VER="0.16.1"
-                ;;
-        esac
-        echo -e "FRPS_VER: ${COLOR_YELOW}${str_FRPS_VER}${COLOR_END}"
-        echo -e ""
-        fun_MvsCode
+        fun_clangcn
         fun_getServer
         fun_getVer
         echo -e "Loading You Server IP, please wait..."
-        defIP=$(wget -qO- ip.MvsCode | sed -r 's/\r//')
+        defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
         echo -e "————————————————————————————————————————————"
         echo -e "     ${COLOR_RED}Please input your server setting:${COLOR_END}"
@@ -533,11 +519,11 @@ pre_install_MvsCode(){
         echo "Press any key to start...or Press Ctrl+c to cancel"
 
         char=`get_char`
-        install_program_server_MvsCode
+        install_program_server_clang
     fi
 }
 # ====== install server ======
-install_program_server_MvsCode(){
+install_program_server_clang(){
     [ ! -d ${str_program_dir} ] && mkdir -p ${str_program_dir}
     cd ${str_program_dir}
     echo "${program_name} install path:$PWD"
@@ -643,7 +629,7 @@ fi
     echo " done"
     [ -s ${program_init} ] && ln -s ${program_init} /usr/bin/${program_name}
     ${program_init} start
-    fun_MvsCode
+    fun_clangcn
     #install successfully
     echo ""
     echo "Congratulations, ${program_name} install completed!"
@@ -675,7 +661,7 @@ fi
     exit 0
 }
 ############################### configure ##################################
-configure_program_server_MvsCode(){
+configure_program_server_clang(){
     if [ -s ${str_program_dir}/${program_config_file} ]; then
         vi ${str_program_dir}/${program_config_file}
     else
@@ -684,8 +670,8 @@ configure_program_server_MvsCode(){
     fi
 }
 ############################### uninstall ##################################
-uninstall_program_server_MvsCode(){
-    fun_MvsCode
+uninstall_program_server_clang(){
+    fun_clangcn
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Uninstall ${program_name} =============="
         str_uninstall="n"
@@ -722,7 +708,7 @@ uninstall_program_server_MvsCode(){
     exit 0
 }
 ############################### update ##################################
-update_config_MvsCode(){
+update_config_clang(){
     if [ ! -r "${str_program_dir}/${program_config_file}" ]; then
         echo "config file ${str_program_dir}/${program_config_file} not found."
     else
@@ -820,11 +806,11 @@ update_config_MvsCode(){
         fi
     fi
 }
-update_program_server_MvsCode(){
-    fun_MvsCode "clear"
+update_program_server_clang(){
+    fun_clangcn "clear"
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Update ${program_name} =============="
-        update_config_MvsCode
+        update_config_clang
         checkos
         check_centosversion
         check_os_bit
@@ -890,19 +876,19 @@ action=$1
 [  -z $1 ]
 case "$action" in
 install)
-    pre_install_MvsCode 2>&1 | tee /root/${program_name}-install.log
+    pre_install_clang 2>&1 | tee /root/${program_name}-install.log
     ;;
 config)
-    configure_program_server_MvsCode
+    configure_program_server_clang
     ;;
 uninstall)
-    uninstall_program_server_MvsCode 2>&1 | tee /root/${program_name}-uninstall.log
+    uninstall_program_server_clang 2>&1 | tee /root/${program_name}-uninstall.log
     ;;
 update)
-    update_program_server_MvsCode 2>&1 | tee /root/${program_name}-update.log
+    update_program_server_clang 2>&1 | tee /root/${program_name}-update.log
     ;;
 *)
-    fun_MvsCode
+    fun_clangcn
     echo "Arguments error! [${action} ]"
     echo "Usage: `basename $0` {install|uninstall|update|config}"
     RET_VAL=1
