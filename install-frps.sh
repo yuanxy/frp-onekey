@@ -172,8 +172,8 @@ fun_getServer(){
     def_server_url="0.18.0"
     echo ""
     echo -e "Please select ${program_name} download url:"
-    echo -e "[1].aliyun "
-    echo -e "[2].github (default)"
+    echo -e "[1].0.16.1 "
+    echo -e "[2].0.18.0 (default)"
     read -e -p "Enter your choice (1, 2 or exit. default [${def_server_url}]): " set_server_url
     [ -z "${set_server_url}" ] && set_server_url="${def_server_url}"
     case "${set_server_url}" in
@@ -187,7 +187,7 @@ fun_getServer(){
             exit 1
             ;;
         *)
-            program_download_url=${0.180_download_url}
+            program_download_url=${0.18.0_download_url}
             ;;
     esac
     echo    "-----------------------------------"
