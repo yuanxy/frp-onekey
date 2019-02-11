@@ -368,7 +368,8 @@ pre_install_clang(){
         ;;
         *)
         echo "Please choose a right item."
-        esac}
+        esac
+        }
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
