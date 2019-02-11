@@ -3,8 +3,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
-export aliyun_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.16.0"
-export github_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.18.0"
+export aliyun_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.16.1/frp_0.16.1_linux_amd64.tar.gz"
+export github_download_url="https://github.com/MvsCode/frp-onekey/releases/download/v0.18.0/frp_0.18.0_linux_amd64.tar.gz"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
 #   Description:  A tool to auto-compile & install frps on Linux
