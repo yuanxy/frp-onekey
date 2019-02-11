@@ -96,28 +96,6 @@ checkos(){
         exit 1
     fi
 }
-# Get version
-        echo -e "Please select ${COLOR_GREEN}FRPS_VER${COLOR_END}"
-        echo    "1: 0.16.1 (default)"
-        echo    "2: 0.18.0"   
-        echo    "-------------------------"
-        read -e -p "Enter your choice (1, 2, or exit. default [1]): " str_FRPS_VER
-        case "${str_FRPS_VER}" in
-            1|[Ii][Nn][Ff][Oo])
-                str_FRPS_VER="0.16.1"
-                ;;
-            2|[Ww][Aa][Rr][Nn])
-                str_FRPS_VER="0.18.0"
-                ;;
-            [eE][xX][iI][tT])
-                exit 1
-                ;;
-            *)
-                str_FRPS_VER="0.16.1"
-                ;;
-        esac
-        echo -e "FRPS_VER: ${COLOR_YELOW}${str_FRPS_VER}${COLOR_END}"
-        echo -e ""
 
 # CentOS version
 centosversion(){
@@ -367,6 +345,28 @@ pre_install_MvsCode(){
         echo "${program_name} is installed!"
     else
         clear
+        # Get version
+        echo -e "Please select ${COLOR_GREEN}FRPS_VER${COLOR_END}"
+        echo    "1: 0.16.1 (default)"
+        echo    "2: 0.18.0"   
+        echo    "-------------------------"
+        read -e -p "Enter your choice (1, 2, or exit. default [1]): " str_FRPS_VER
+        case "${str_FRPS_VER}" in
+            1|[Ii][Nn][Ff][Oo])
+                str_FRPS_VER="0.16.1"
+                ;;
+            2|[Ww][Aa][Rr][Nn])
+                str_FRPS_VER="0.18.0"
+                ;;
+            [eE][xX][iI][tT])
+                exit 1
+                ;;
+            *)
+                str_FRPS_VER="0.16.1"
+                ;;
+        esac
+        echo -e "FRPS_VER: ${COLOR_YELOW}${str_FRPS_VER}${COLOR_END}"
+        echo -e ""
         fun_MvsCode
         fun_getServer
         fun_getVer
