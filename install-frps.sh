@@ -2,6 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
+export FRPS_VER=0.23.3
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
@@ -85,7 +86,7 @@ get_char(){
 }
 # Check OS
 checkos(){
-    if   grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+    if  grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
         OS=CentOS
     elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
         OS=Debian
@@ -355,21 +356,6 @@ pre_install_clang(){
         fun_clangcn
         fun_getServer
         fun_getVer
-        FRPS_VER=(){
-        echo "1. 0.16.1"
-        echo "2. 0.18.0"
-        read -p "Please choose frps version: " i
-        case "$i" in
-        1)
-        echo "Your frps version is 0.16.1."
-        ;;
-        2)
-        echo "Your frps version is 0.18.0."
-        ;;
-        *)
-        echo "Please choose a right item."
-        esac
-        }
         echo -e "Loading You Server IP, please wait..."
         defIP=$(wget -qO- ip.clang.cn | sed -r 's/\r//')
         echo -e "You Server IP:${COLOR_GREEN}${defIP}${COLOR_END}"
