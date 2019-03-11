@@ -554,9 +554,7 @@ install_program_server_clang(){
 # Config file
 if [[ "${set_kcp}" == "false" ]]; then
 cat > ${str_program_dir}/${program_config_file}
-   [[ "${set_tls}" == "false" ]]; then
-cat > ${str_program_dir}/${program_config_file}
-    <<-EOF
+<<-EOF
 # [common] is integral section
 [common]
 # A literal address or host name for IPv6 must be enclosed
