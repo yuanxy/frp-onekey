@@ -497,33 +497,11 @@ pre_install_clang(){
         esac
         echo -e "kcp support: ${COLOR_YELOW}${set_kcp}${COLOR_END}"
         echo -e ""
-        echo -e "Please select ${COLOR_GREEN}tls support${COLOR_END}"
-        echo    "1: enable (default)"
-        echo    "2: disable"
-        echo "-------------------------"  
-        read -e -p "Enter your choice (1, 2 or exit. default [1]): " str_tls
-        case "${str_tls}" in
-            1|[yY]|[yY][eE][sS]|[oO][nN]|[tT][rR][uU][eE]|[eE][nN][aA][bB][lL][eE])
-                set_tls="true"
-                ;;
-            0|2|[nN]|[nN][oO]|[oO][fF][fF]|[fF][aA][lL][sS][eE]|[dD][iI][sS][aA][bB][lL][eE])
-                set_tls="false"
-                ;;
-            [eE][xX][iI][tT])
-                exit 1
-                ;;
-            *)
-                set_tls="true"
-                ;;
-        esac
-        echo -e "tls support: ${COLOR_YELOW}${set_tls}${COLOR_END}"
-        echo -e ""
 
         echo "============== Check your input =============="
         echo -e "You Server IP      : ${COLOR_GREEN}${defIP}${COLOR_END}"
         echo -e "Bind port          : ${COLOR_GREEN}${set_bind_port}${COLOR_END}"
         echo -e "kcp support        : ${COLOR_GREEN}${set_kcp}${COLOR_END}"
-        echo -e "tls support        : ${COLOR_GREEN}${set_tls}${COLOR_END}"
         echo -e "vhost http port    : ${COLOR_GREEN}${set_vhost_http_port}${COLOR_END}"
         echo -e "vhost https port   : ${COLOR_GREEN}${set_vhost_https_port}${COLOR_END}"
         echo -e "Dashboard port     : ${COLOR_GREEN}${set_dashboard_port}${COLOR_END}"
@@ -586,7 +564,6 @@ subdomain_host = ${set_subdomain_host}
 # pool_count in each proxy will change to max_pool_count if they exceed the maximum value
 max_pool_count = ${set_max_pool_count}
 # if tcp stream multiplexing is used, default is true
-tcp_mux = ${set_tcp_mux}
 EOF
 else
 cat > ${str_program_dir}/${program_config_file}<<-EOF
@@ -622,7 +599,6 @@ subdomain_host = ${set_subdomain_host}
 max_pool_count = ${set_max_pool_count}
 # if tcp stream multiplexing is used, default is true
 tcp_mux = ${set_tcp_mux}
-tls = ${set_tls}
 EOF
 fi
     echo " done"
@@ -667,7 +643,6 @@ fi
     echo -e "token              : ${COLOR_GREEN}${set_token}${COLOR_END}"
     echo -e "subdomain_host     : ${COLOR_GREEN}${set_subdomain_host}${COLOR_END}"
     echo -e "tcp_mux            : ${COLOR_GREEN}${set_tcp_mux}${COLOR_END}"
-    echo -e "tls support        : ${COLOR_GREEN}${set_tls}${COLOR_END}"
     echo -e "Max Pool count     : ${COLOR_GREEN}${set_max_pool_count}${COLOR_END}"
     echo -e "Log level          : ${COLOR_GREEN}${str_log_level}${COLOR_END}"
     echo -e "Log max days       : ${COLOR_GREEN}${set_log_max_days}${COLOR_END}"
@@ -743,7 +718,7 @@ update_config_clang(){
         search_tcp_mux=`grep "tcp_mux" ${str_program_dir}/${program_config_file}`
         search_token=`grep "privilege_token" ${str_program_dir}/${program_config_file}`
         search_allow_ports=`grep "privilege_allow_ports" ${str_program_dir}/${program_config_file}`
-        if [ -z "${search_dashboard_user}" ] || [ -z "${search_dashboard_pwd}" ] || [ -z "${search_kcp_bind_port}" ] || [ -z "${search_tcp_mux}" ] || [ -z "${search_tls}" ] || [ ! -z "${search_token}" ] || [ ! -z "${search_allow_ports}" ];then
+        if [ -z "${search_dashboard_user}" ] || [ -z "${search_dashboard_pwd}" ] || [ -z "${search_kcp_bind_port}" ] || [ -z "${search_tcp_mux}" ] || [ ! -z "${search_token}" ] || [ ! -z "${search_allow_ports}" ];then
             echo -e "${COLOR_GREEN}Configuration files need to be updated, now setting:${COLOR_END}"
             echo ""
             if [ ! -z "${search_token}" ];then
