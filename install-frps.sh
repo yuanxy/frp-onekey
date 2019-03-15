@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.25.0
+export FRPS_VER=0.25.1
 export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/dev/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
@@ -531,8 +531,7 @@ install_program_server_clang(){
     echo -n "config file for ${program_name} ..."
 # Config file
 if [[ "${set_kcp}" == "false" ]]; then
-cat > ${str_program_dir}/${program_config_file}
-<<-EOF
+cat > ${str_program_dir}/${program_config_file}<<-EOF
 # [common] is integral section
 [common]
 # A literal address or host name for IPv6 must be enclosed
@@ -564,6 +563,7 @@ subdomain_host = ${set_subdomain_host}
 # pool_count in each proxy will change to max_pool_count if they exceed the maximum value
 max_pool_count = ${set_max_pool_count}
 # if tcp stream multiplexing is used, default is true
+tcp_mux = ${set_tcp_mux}
 EOF
 else
 cat > ${str_program_dir}/${program_config_file}<<-EOF
