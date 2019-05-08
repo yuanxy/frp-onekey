@@ -5,8 +5,8 @@
 # distro. For CentOS/Redhat run: 'chkconfig --add frps'
 #=========================================================
 #   System Required:  CentOS/Debian/Ubuntu (32bit/64bit)
-#   Description:  Manager for frps, Written by Clang
-#   Mender：MvsCode
+#   Description:  Manager for frps, Written by 网络一哥
+#   Mender：51妹子网
 #=========================================================
 ### BEGIN INIT INFO
 # Provides:          frps
@@ -35,7 +35,7 @@ fun_clangcn()
 {
     echo ""
     echo "+---------------------------------------------------------+"
-    echo "|     Manager for ${ProgramName}, Author Clang, Mender MvsCode      |"
+    echo "|     Manager for ${ProgramName}, Author 网络一哥, Mender 51妹子网      |"
     echo "+---------------------------------------------------------+"
     echo ""
 }
