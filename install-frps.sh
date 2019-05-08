@@ -3,14 +3,14 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
 export FRPS_VER=0.25.3
-export FRPS_INIT="https://raw.githubusercontent.com/MvsCode/frp-onekey/master/frps.init"
+export FRPS_INIT="https://raw.githubusercontent.com/yuanxy/frp-onekey/master/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://github.com/fatedier/frp/releases/download"
 #======================================================================
 #   System Required:  CentOS Debian or Ubuntu (32bit/64bit)
 #   Description:  A tool to auto-compile & install frps on Linux
-#   Author: Clang
-#   Mender：MvsCode
+#   Author: 网络一哥
+#   Mender：51妹子网
 #======================================================================
 program_name="frps"
 version="19.4.25"
@@ -52,7 +52,7 @@ fun_clangcn(){
     fi
     echo ""
     echo "+------------------------------------------------------------+"
-    echo "|   frps for Linux Server, Author Clang ，Mender MvsCode     |" 
+    echo "|   frps for Linux Server, Author 网络一哥 ，Mender 51妹子网     |" 
     echo "|      A tool to auto-compile & install frps on Linux        |"
     echo "+------------------------------------------------------------+"
     echo ""
