@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.28.2
+export FRPS_VER=0.34.3
 export FRPS_INIT="https://raw.githubusercontent.com/yuanxy/frp-onekey/master/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 export github_download_url="https://rain-1251840779.cos.ap-chengdu.myqcloud.com/down"
