@@ -1,5 +1,5 @@
 
-Frps服务端一键配置脚本，最新版本：0.28.2
+Frps服务端一键配置脚本，最新版本：0.34.3
 ===========
 
 *Frp 是一个高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务，支持 tcp, http, https 等协议类型，并且 web 服务支持根据域名进行路由转发。*
@@ -31,6 +31,12 @@ Usage: /etc/init.d/frps {start|stop|restart|status|config|version}
 ```
 Frps onkey-install-shell Changelog<br>Frp版本更新说明
 ---------------------------------------
+
+v0.34.3
+@github-actions github-actions released this on 20 Nov · 13 commits to dev since this release
+
+New
+Command line parameters support enable_prometheus.
 
  <!-- vim-markdown-toc GFM -->
  * ## v0.28.2
