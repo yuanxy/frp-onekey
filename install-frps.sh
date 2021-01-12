@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 ###export###
 export PATH
-export FRPS_VER=0.34.3
+export FRPS_VER=0.32.0
 export FRPS_INIT="https://raw.githubusercontent.com/yuanxy/frp-onekey/master/frps.init"
 export aliyun_download_url="https://code.aliyun.com/MvsCode/frp-onekey/raw/master"
 #export github_download_url="https://rain-1251840779.cos.ap-chengdu.myqcloud.com/down"
@@ -197,8 +197,8 @@ fun_getServer(){
 fun_getVer(){
     echo -e "Loading network version for ${program_name}, please wait..."
     program_latest_filename="frp_${FRPS_VER}_linux_${ARCHS}.tar.gz"
-    #program_latest_file_url="${program_download_url}/v${FRPS_VER}/${program_latest_filename}"
-    program_latest_file_url="${program_download_url}/${program_latest_filename}"
+    program_latest_file_url="${program_download_url}/v${FRPS_VER}/${program_latest_filename}"
+    #program_latest_file_url="${program_download_url}/${program_latest_filename}"
     if [ -z "${program_latest_filename}" ]; then
         echo -e "${COLOR_RED}Load network version failed!!!${COLOR_END}"
     else
